@@ -39,6 +39,9 @@ INTERFACE=$(ip -br addr | grep "eth0" | awk '{print $1}')
 INTERFACE_STATUS=$(ip -br addr | grep "eth0" | awk '{print $2}')
 DEFAULT_GATEWAY=$(ip route | grep "^default" | awk '{print $3}')
 
+DISK_USAGE=$(df -h / | awk 'NR==2 {print $5}')
+DISK_USAGE_NUM=${DISK_USAGE%\%}
+
 echo "====================================================================="
 echo "Linux System Health Monitor"
 echo "====================================================================="
@@ -68,6 +71,15 @@ echo "Total Disk     : $TOTAL_DISK"
 echo "Used Disk      : $USED_DISK"
 echo "Available Disk : $AVAILABLE_DISK"
 echo "Disk Usage     : $DISK_USAGE"
+echo 
+echo "=============DISK HEALTH================"
+if [ "$DISK_USAGE_NUM" -gt 80 ] 
+then
+    echo "Stauts : WARNING "
+else
+    echo "Status : HEALTHY "
+fi
+echo
 
 echo "===================USER INFORMATION================="
 echo "Current User : $CURRENT_USER"
@@ -92,3 +104,7 @@ echo "Interface Status: $INTERFACE_STATUS"
 echo "Default Gateway : $DEFAULT_GATEWAY"
 
 echo 
+
+
+
+
