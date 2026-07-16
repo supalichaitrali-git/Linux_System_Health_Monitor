@@ -25,6 +25,20 @@ USED_DISK=$(df -h | awk 'NR==2 {print $3}')
 AVAILABLE_DISK=$(df -h | awk 'NR==2 {print $4}')
 DISK_USAGE=$(df -h | awk 'NR==2 {print $5}')
 
+CURRENT_USER=$(whoami)
+USER_ID=$(id -u)
+PRIMARY_GROUP=$(id -gn)
+
+TOTAL_PROCESSES=$(ps -e --no-headers |wc -l)
+TOP_PROCESSES=$(ps -ef | head -5)
+
+LOAD_AVERAGE=$(uptime | awk -F'load average: ' '{print $2}')
+
+IP_ADDRESS=$(hostname -I)
+INTERFACE=$(ip -br addr | grep "eth0" | awk '{print $1}')
+INTERFACE_STATUS=$(ip -br addr | grep "eth0" | awk '{print $2}')
+DEFAULT_GATEWAY=$(ip route | grep "^default" | awk '{print $3}')
+
 echo "====================================================================="
 echo "Linux System Health Monitor"
 echo "====================================================================="
@@ -55,6 +69,26 @@ echo "Used Disk      : $USED_DISK"
 echo "Available Disk : $AVAILABLE_DISK"
 echo "Disk Usage     : $DISK_USAGE"
 
+echo "===================USER INFORMATION================="
+echo "Current User : $CURRENT_USER"
+echo "User ID : $USER_ID"
+echo "Primary Group : $PRIMARY_GROUP"
+echo
 
+echo "======================RUNNING  PROCESSES================="
+echo "Total Running Processes : $TOTAL_PROCESSES"
+echo "TOP PROCESSES : $TOP_PROCESSES"
+echo
 
+echo "================LOAD AVERAGE==============="
+echo "Load Average (1, 5, 15 min) : $LOAD_AVERAGE"
+echo
 
+echo
+echo "================NETWORK INFORMATION======="
+echo "IP Address      : $IP_ADDRESS"
+echo "Interface       : $INTERFACE"
+echo "Interface Status: $INTERFACE_STATUS"
+echo "Default Gateway : $DEFAULT_GATEWAY"
+
+echo 
