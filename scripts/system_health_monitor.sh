@@ -1,5 +1,9 @@
 #!/bin/bash
-
+LOG_DIR="logs"
+LOG_FILE="$LOG_DIR/Linux_System_Health_Monitor.log"
+echo "========================================" >> "$LOG_FILE"
+echo "Script started at : $(date)" >> "$LOG_FILE"
+exec > >(tee -a "$LOG_FILE") 2>&1
 #==========================================================================
 # Project : Linux System Health Monitor
 # Author  : Chaitrali Supali
