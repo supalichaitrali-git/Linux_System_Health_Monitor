@@ -1,6 +1,12 @@
 #!/bin/bash
 LOG_DIR="logs"
 LOG_FILE="$LOG_DIR/Linux_System_Health_Monitor.log"
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
 CONFIG_FILE="config/settings.conf"
 
 if [ -f "$CONFIG_FILE" ]
@@ -89,9 +95,9 @@ disk_information(){
     DISK_USAGE_NUM=${DISK_USAGE%\%}
     if [ "$DISK_USAGE_NUM" -gt "$DISK_THRESHOLD" ] 
     then
-        echo "Status : WARNING "
+        echo -e "Status : ${RED}WARNING${NC}"
     else
-        echo "Status : HEALTHY "
+        echo -e "Status : ${GREEN}HEALTHY${NC}"
     fi
     echo
 }
