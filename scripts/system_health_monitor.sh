@@ -150,11 +150,60 @@ do
     check_command "$cmd"
 done
 
-system_information
-memory_information
-cpu_information
-disk_information
-user_information
-process_information
-load_average
-network_information
+#system_information
+#memory_information
+#cpu_information
+#disk_information
+#user_information
+#process_information
+#load_average
+#network_information
+
+case "$1" in
+    --system)
+      system_information
+      ;;
+    --memory)
+      memory_information
+      ;;
+    --cpu)
+      cpu_information
+      ;;
+    --disk)
+      disk_information
+      ;;
+    --user)
+      user_information
+      ;;
+    --process)
+      process_information
+      ;;
+    --load)
+      load_average
+      ;;
+    --network)
+      network_information
+      ;;
+    --all|"")
+     system_information
+     memory_information
+     cpu_information
+     disk_information
+     user_information
+     process_information
+     load_average
+     network_information
+     ;;
+    *)
+     echo "Usage:"
+     echo "./system_health_monitor.sh --all"
+     echo "./system_health_monitor.sh --system"
+     echo "./system_health_monitor.sh --memory"
+     echo "./system_health_monitor.sh --cpu"
+     echo "./system_health_monitor.sh --disk"
+     echo "./system_health_monitor.sh --user"
+     echo "./system_health_monitor.sh --process"
+     echo "./system_health_monitor.sh --load"
+     echo "./system_health_monitor.sh --network"
+     ;;
+esac
