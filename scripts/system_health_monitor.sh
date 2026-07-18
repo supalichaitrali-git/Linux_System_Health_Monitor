@@ -1,6 +1,16 @@
 #!/bin/bash
 LOG_DIR="logs"
 LOG_FILE="$LOG_DIR/Linux_System_Health_Monitor.log"
+CONFIG_FILE="config/settings.conf"
+
+if [ -f "$CONFIG_FILE" ]
+then
+    source "$CONFIG_FILE"
+else
+    echo "ERROR: Configuration file not found."
+    exit 1
+fi
+
 echo "========================================" >> "$LOG_FILE"
 echo "Script started at : $(date)" >> "$LOG_FILE"
 exec > >(tee -a "$LOG_FILE") 2>&1
@@ -15,6 +25,14 @@ echo
 echo "====================================================================="
 echo "Linux System Health Monitor"
 echo "====================================================================="
+
+check_command() {
+    command -v "$1" >/dev/null 2>&1 || {
+    echo "ERROR : Required command '$1' is not installed."
+    exit 1
+  }
+}
+
 # Displays basic system information.
 system_information(){
     HOSTNAME=$(hostname)
@@ -69,7 +87,7 @@ disk_information(){
     echo 
     echo "=============DISK HEALTH================"
     DISK_USAGE_NUM=${DISK_USAGE%\%}
-    if [ "$DISK_USAGE_NUM" -gt 80 ] 
+    if [ "$DISK_USAGE_NUM" -gt "$DISK_THRESHOLD" ] 
     then
         echo "Status : WARNING "
     else
@@ -121,6 +139,11 @@ network_information(){
     echo "Default Gateway : $DEFAULT_GATEWAY"
 }
 
+for cmd in hostname date uptime free lscpu df whoami id ps awk grep cut xargs ip
+do
+    check_command "$cmd"
+done
+
 system_information
 memory_information
 cpu_information
@@ -129,6 +152,3 @@ user_information
 process_information
 load_average
 network_information
-
-
-
