@@ -1,2 +1,14 @@
+# Log files
 logs/*.log
+
+# Temporary files
+*.tmp
+*.swp
+
+# Backup files
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
 
